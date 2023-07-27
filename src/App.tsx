@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Cell } from "./components/table/Cell";
+import { Row } from "./components/table/Row";
+import { Table } from "./components/table/Table";
+import { TodoItem } from "./components/todo/TodoItem";
+import { Todo } from "./models/Todo";
 
 function App() {
+  const todos = [
+    new Todo("Doo", new Date(Date.now()), "Idea", "Doo", "Hello!"),
+    new Todo("Foo", new Date(Date.now()), "Task", "Doo", "Hello!"),
+    new Todo("Bar", new Date(Date.now()), "Random Thought", "Doo", "Hello!"),
+    new Todo("Doo", new Date(Date.now()), "Idea", "Doo", "Hello!"),
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App container">
+      <Table
+        headers={["Name", "Created", "Category", "Content", "Dates", "Actions"]}
+      >
+        {todos.map((todo, index) => (
+          <TodoItem key={index} todo={todo} />
+        ))}
+      </Table>
     </div>
   );
 }
