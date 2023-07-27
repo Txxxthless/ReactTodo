@@ -1,24 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import { Todo } from "../../models/Todo";
 import { Row } from "../table/Row";
 import { Cell } from "../table/Cell";
+import { Input } from "../forms/Input";
 
 interface TodoProps {
   todo: Todo;
+  remove: (todo: Todo) => void;
+  edit: (todo: Todo) => void;
 }
 
-export const TodoItem = ({ todo }: TodoProps) => {
+export const TodoItem = ({ todo, remove, edit }: TodoProps) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const [name, setName] = useState(todo.name);
+  const [category, setCategory] = useState(todo.category);
+  const [content, setContent] = useState(todo.content);
+  const [dates, setDates] = useState(todo.dates);
+
+  const onEdit = () => {
+    if (isEditMode) {
+      todo.name = name;
+      todo.category = category;
+      todo.content = content;
+      todo.dates = dates;
+
+      edit(todo);
+
+      setIsEditMode((value) => !value);
+    } else {
+      setIsEditMode((value) => !value);
+    }
+  };
+
   return (
     <Row>
-      <Cell>{todo.name}</Cell>
-      <Cell>{todo.created.toDateString()}</Cell>
-      <Cell>{todo.category} </Cell>
-      <Cell>{todo.content} </Cell>
-      <Cell>{todo.dates}</Cell>
+      {isEditMode ? (
+        <>
+          <Cell>
+            <Input
+              type="text"
+              placeHolder="Name"
+              onChange={(name: string) => setName(name)}
+            />
+          </Cell>
+          <Cell>{todo.created.toDateString()}</Cell>
+          <Cell>
+            <Input
+              type="text"
+              placeHolder="Category"
+              onChange={(category: string) => setCategory(category)}
+            />
+          </Cell>
+          <Cell>
+            <Input
+              type="text"
+              placeHolder="Content"
+              onChange={(content: string) => setContent(content)}
+            />
+          </Cell>
+          <Cell>
+            <Input
+              type="text"
+              placeHolder="Dates"
+              onChange={(dates: string) => setDates(dates)}
+            />
+          </Cell>
+        </>
+      ) : (
+        <>
+          <Cell>{todo.name}</Cell>
+          <Cell>{todo.created.toDateString()}</Cell>
+          <Cell>{todo.category} </Cell>
+          <Cell>{todo.content} </Cell>
+          <Cell>{todo.dates}</Cell>
+        </>
+      )}
+
       <Cell>
         <button className="btn btn-outline-warning">Archive</button>
-        <button className="btn btn-outline-primary">Edit</button>
-        <button className="btn btn-outline-danger">Remove</button>
+        <button className="btn btn-outline-primary" onClick={() => onEdit()}>
+          Edit
+        </button>
+        <button className="btn btn-outline-danger" onClick={() => remove(todo)}>
+          Remove
+        </button>
       </Cell>
     </Row>
   );
