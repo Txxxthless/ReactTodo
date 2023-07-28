@@ -28,7 +28,6 @@ const activeTodoSlice = createSlice({
           todo = action.payload;
         }
       }
-      console.log(state.activeTodos);
     },
   },
 });

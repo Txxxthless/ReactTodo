@@ -3,14 +3,18 @@ import { Todo } from "../../models/Todo";
 import { Row } from "../table/Row";
 import { Cell } from "../table/Cell";
 import { Input } from "../forms/Input";
+import { Select } from "../forms/Select";
 
 interface TodoProps {
   todo: Todo;
   remove: (todo: Todo) => void;
   edit: (todo: Todo) => void;
+  archive?: (todo: Todo) => void;
 }
 
-export const TodoItem = ({ todo, remove, edit }: TodoProps) => {
+const selectItems = ["Idea", "Task", "Random Thought"];
+
+export const TodoItem = ({ todo, remove, edit, archive }: TodoProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
 
   const [name, setName] = useState(todo.name);
@@ -46,9 +50,8 @@ export const TodoItem = ({ todo, remove, edit }: TodoProps) => {
           </Cell>
           <Cell>{todo.created.toDateString()}</Cell>
           <Cell>
-            <Input
-              type="text"
-              placeHolder="Category"
+            <Select
+              items={selectItems}
               onChange={(category: string) => setCategory(category)}
             />
           </Cell>
@@ -70,7 +73,11 @@ export const TodoItem = ({ todo, remove, edit }: TodoProps) => {
       ) : (
         <>
           <Cell>{todo.name}</Cell>
-          <Cell>{todo.created.toDateString()}</Cell>
+          <Cell>
+            {todo.created.toDateString
+              ? todo.created.toDateString()
+              : new Date(todo.created).toDateString()}
+          </Cell>
           <Cell>{todo.category} </Cell>
           <Cell>{todo.content} </Cell>
           <Cell>{todo.dates}</Cell>
@@ -78,7 +85,16 @@ export const TodoItem = ({ todo, remove, edit }: TodoProps) => {
       )}
 
       <Cell>
-        <button className="btn btn-outline-warning">Archive</button>
+        {archive ? (
+          <button
+            className="btn btn-outline-warning"
+            onClick={() => archive(todo)}
+          >
+            Archive
+          </button>
+        ) : (
+          <></>
+        )}
         <button className="btn btn-outline-primary" onClick={() => onEdit()}>
           Edit
         </button>
