@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { addTodo, removeTodo, editTodo } from "../../store/activeTodoSlice";
 import { archiveTodo } from "../../store/archivedTodoSlice";
 import { Todo } from "../../models/Todo";
+import { Totals } from "./Totals";
 
 export const ActiveTodosPage = () => {
   const activeTodos = useAppSelector((state) => state.activeTodos.activeTodos);
@@ -43,6 +44,7 @@ export const ActiveTodosPage = () => {
       <button className="btn btn-success" onClick={() => addActiveTodo()}>
         Create new
       </button>
+      <Totals/>
     </div>
   );
 };
