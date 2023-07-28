@@ -25,9 +25,9 @@ export const ArchivedTodosPage = () => {
       <Table
         headers={["Name", "Created", "Category", "Content", "Dates", "Actions"]}
       >
-        {activeTodos.map((todo, index) => (
+        {activeTodos.map((todo) => (
           <TodoItem
-            key={index}
+            key={todo.id}
             todo={todo}
             remove={deleteActiveTodo}
             edit={editActiveTodo}

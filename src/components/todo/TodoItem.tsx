@@ -48,7 +48,11 @@ export const TodoItem = ({ todo, remove, edit, archive }: TodoProps) => {
               onChange={(name: string) => setName(name)}
             />
           </Cell>
-          <Cell>{todo.created.toDateString()}</Cell>
+          <Cell>
+            {todo.created.toDateString
+              ? todo.created.toDateString()
+              : new Date(todo.created).toDateString()}
+          </Cell>
           <Cell>
             <Select
               items={selectItems}

@@ -30,6 +30,17 @@ const arhivedTodoSlice = createSlice({
       for (let todo of state.arhivedTodos) {
         if (todo.id === action.payload.id) {
           todo = action.payload;
+
+          let datesString = "";
+
+          const dates = action.payload.dates.split(" ");
+          for (let date of dates) {
+            if (new Date(date).toDateString() !== "Invalid Date") {
+              datesString += " " + date;
+            }
+          }
+
+          todo.dates = datesString;
         }
       }
       saveArchivedTodos(state.arhivedTodos);
